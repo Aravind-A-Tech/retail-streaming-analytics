@@ -1,4 +1,4 @@
-name: Databricks Connectivity Test
+name: Databricks Connectivity & Txn Gen
 
 on:
   workflow_dispatch:
@@ -28,4 +28,4 @@ jobs:
 
       - name: Run Databricks Script
         run: |
-          python readdatabricks.py
+          python transactiongenerator.py
