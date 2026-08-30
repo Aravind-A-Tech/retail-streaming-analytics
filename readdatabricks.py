@@ -65,10 +65,10 @@ def get_stores():
 
     return stores
 
-# products = get_products()
-# customers = get_customers()
-# stores = get_stores()
+products = get_products()
+customers = get_customers()
+stores = get_stores()
 
-# print(f"Products  : {len(products)}")
-# print(f"Customers : {len(customers)}")
-# print(f"Stores    : {len(stores)}")
+print(f"Products  : {len(products)}")
+print(f"Customers : {len(customers)}")
+print(f"Stores    : {len(stores)}")
