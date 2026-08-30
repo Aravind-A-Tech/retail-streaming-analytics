@@ -1,0 +1,31 @@
+name: Databricks Connectivity Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
+      DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Packages
+        run: |
+          pip install databricks-sql-connector
+          pip install python-dotenv
+
+      - name: Run Databricks Script
+        run: |
+          python readdatabricks.py
