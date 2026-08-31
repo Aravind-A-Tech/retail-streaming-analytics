@@ -80,7 +80,6 @@ def main():
     for _ in range(10):
         transaction = generator.generate_transaction()
         send_transaction(transaction)
-
         print(
             f"Generated transaction: "
             f"{transaction['transaction_id']}"
