@@ -1,4 +1,5 @@
 import random
+import os
 from datetime import datetime, UTC
 import uuid
 from kafkaproducer import send_transaction
@@ -76,14 +77,10 @@ def main():
 
     print("\nGenerating sample transactions...\n")
 
-
-    for _ in range(10):
+    count = int(os.getenv("TXN_COUNT", 10))
+    for _ in range(count):
         transaction = generator.generate_transaction()
         send_transaction(transaction)
-        print(
-            f"Generated transaction: "
-            f"{transaction['transaction_id']}"
-        )
 
 
 if __name__ == "__main__":
