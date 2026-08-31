@@ -81,10 +81,10 @@ def main():
         transaction = generator.generate_transaction()
         send_transaction(transaction)
 
-    print(
-        f"Generated transaction: "
-        f"{transaction['transaction_id']}"
-    )
+        print(
+            f"Generated transaction: "
+            f"{transaction['transaction_id']}"
+        )
 
 
 if __name__ == "__main__":
