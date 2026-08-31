@@ -77,7 +77,7 @@ def main():
 
     print("\nGenerating sample transactions...\n")
 
-    count = int(os.getenv("TXN_COUNT", 10))
+    count = int(os.getenv("TXN_COUNT") or 10)
     for _ in range(count):
         transaction = generator.generate_transaction()
         send_transaction(transaction)
