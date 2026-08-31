@@ -2,6 +2,11 @@ name: Databricks Connectivity & Txn Gen
 
 on:
   workflow_dispatch:
+    inputs:
+      txn_count:
+        description: "Number of transactions"
+        required: true
+        default: "10"
 
 jobs:
   test:
@@ -11,7 +16,7 @@ jobs:
       DATABRICKS_HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
       DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-
+      TXN_COUNT: ${{ github.event.inputs.txn_count }}
       AIVEN_KAFKA_BOOTSTRAP_SERVER: ${{ secrets.AIVEN_KAFKA_BOOTSTRAP_SERVER }}
       AIVEN_KAFKA_USERNAME: ${{ secrets.AIVEN_KAFKA_USERNAME }}
       AIVEN_KAFKA_PASSWORD: ${{ secrets.AIVEN_KAFKA_PASSWORD }}
