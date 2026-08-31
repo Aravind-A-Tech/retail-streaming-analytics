@@ -1,6 +1,7 @@
 import random
 from datetime import datetime, UTC
 import uuid
+from kafkaproducer import send_transaction
 
 from readdatabricks import (
     get_products,
@@ -75,8 +76,15 @@ def main():
 
     print("\nGenerating sample transactions...\n")
 
+
     for _ in range(10):
-        print(generator.generate_transaction())
+        transaction = generator.generate_transaction()
+        send_transaction(transaction)
+
+    print(
+        f"Generated transaction: "
+        f"{transaction['transaction_id']}"
+    )
 
 
 if __name__ == "__main__":
