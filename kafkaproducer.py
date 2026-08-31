@@ -12,7 +12,6 @@ producer = KafkaProducer(
     sasl_plain_username=os.getenv("AIVEN_KAFKA_USERNAME"),
     sasl_plain_password=os.getenv("AIVEN_KAFKA_PASSWORD"),
     ssl_cafile="ca.pem",
-    api_version=(3, 7, 0),   # <-- add this line
     value_serializer=lambda v: json.dumps(v).encode("utf-8")
 )
 
