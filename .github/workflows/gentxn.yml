@@ -15,6 +15,7 @@ jobs:
       AIVEN_KAFKA_BOOTSTRAP_SERVER: ${{ secrets.AIVEN_KAFKA_BOOTSTRAP_SERVER }}
       AIVEN_KAFKA_USERNAME: ${{ secrets.AIVEN_KAFKA_USERNAME }}
       AIVEN_KAFKA_PASSWORD: ${{ secrets.AIVEN_KAFKA_PASSWORD }}
+      AIVEN_KAFKA_TOPIC: ${{ secrets.AIVEN_KAFKA_TOPIC }}
 
     steps:
       - name: Checkout Code
