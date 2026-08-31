@@ -12,6 +12,10 @@ jobs:
       DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
+      AIVEN_KAFKA_BOOTSTRAP_SERVER: ${{ secrets.AIVEN_KAFKA_BOOTSTRAP_SERVER }}
+      AIVEN_KAFKA_USERNAME: ${{ secrets.AIVEN_KAFKA_USERNAME }}
+      AIVEN_KAFKA_PASSWORD: ${{ secrets.AIVEN_KAFKA_PASSWORD }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -25,7 +29,14 @@ jobs:
         run: |
           pip install databricks-sql-connector
           pip install python-dotenv
+          pip install kafka-python
 
-      - name: Run Databricks Script
+      - name: Create Kafka CA Certificate
+        run: |
+          cat <<'EOF' > ca.pem
+          ${{ secrets.AIVEN_CA_CERT }}
+          EOF
+
+      - name: Run Transaction Generator
         run: |
           python transactiongenerator.py
