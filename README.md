@@ -1,2 +1,2 @@
 # retail-streaming-analytics
-Real-Time Retail Operations and Sales Analytics Platform using Kafka and Databricks
+End-to-End Retail Streaming Analytics Platform using Kafka, Spark Structured Streaming, Delta Lake, and Databricks Medallion Architecture.
