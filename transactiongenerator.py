@@ -76,11 +76,12 @@ def main():
     )
 
     print("\nGenerating sample transactions...\n")
-
-    count = int(os.getenv("TXN_COUNT") or 50)
+    gen_count = random.randint(49,100)
+    count = int(os.getenv("TXN_COUNT") or gen_count)
     for _ in range(count):
         transaction = generator.generate_transaction()
-        send_transaction(transaction)
+        print(transaction)
+        #send_transaction(transaction)
 
 
 if __name__ == "__main__":
