@@ -27,7 +27,11 @@ class TransactionGenerator:
         product = random.choice(self.products)
         customer = random.choice(self.customers)
         store = random.choice(self.stores)
-        quantity = random.randint(1, 5)
+        quantity = random.choices(
+                [1, 2, 3],
+                weights=[70, 25, 5],
+                k=1
+            )[0]
         unit_price = float(product.unitprice)
         gross_amount = round(quantity * unit_price,2)
         payment_method = random.choice([
