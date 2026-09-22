@@ -76,12 +76,21 @@ def main():
     )
 
     print("\nGenerating sample transactions...\n")
-    gen_count = random.randint(49,100)
-    count = int(os.getenv("TXN_COUNT") or gen_count)
+   
+    current_hour = datetime.now(UTC).hour
+    if 6 <= current_hour < 10:
+        default_count = random.randint(40, 80)
+
+    elif 17 <= current_hour < 22:
+        default_count = random.randint(49, 100)
+
+    else:
+        default_count = random.randint(10, 40)
+
+    count = int(os.getenv("TXN_COUNT", default_count))
     for _ in range(count):
         transaction = generator.generate_transaction()
-        print(transaction)
-        #send_transaction(transaction)
+        send_transaction(transaction)
 
 
 if __name__ == "__main__":
