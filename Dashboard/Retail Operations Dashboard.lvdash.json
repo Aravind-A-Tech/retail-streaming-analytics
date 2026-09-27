@@ -1,0 +1,2053 @@
+{
+  "datasets": [
+    {
+      "name": "kpi_total_revenue",
+      "displayName": "Total Revenue KPI",
+      "queryLines": [
+        "SELECT\n",
+        "  sale_date,\n",
+        "  ROUND(total_revenue, 2) AS total_revenue,total_units\n",
+        "FROM\n",
+        "  retailanalytics.gold.daily_sales"
+      ]
+    },
+    {
+      "name": "09f4500c",
+      "displayName": "Total Transactions",
+      "queryLines": [
+        "SELECT\r\n",
+        "    sale_date,\r\n",
+        "    (completed_transactions + failed_transactions + pending_transactions) AS Total_transactions\r\n",
+        "FROM retailanalytics.gold.daily_sales;"
+      ]
+    },
+    {
+      "name": "a668f7eb",
+      "displayName": "Total failed transactions",
+      "queryLines": [
+        "SELECT\r\n",
+        "    sale_date,\r\n",
+        "    failed_transactions AS failed_transactions\r\n",
+        "FROM retailanalytics.gold.daily_sales;"
+      ]
+    },
+    {
+      "name": "0ef2b62f",
+      "displayName": "Total pending Transactions",
+      "queryLines": [
+        "SELECT\r\n",
+        "    sale_date,\r\n",
+        "    pending_transactions AS pending_transactions\r\n",
+        "FROM retailanalytics.gold.daily_sales;"
+      ]
+    },
+    {
+      "name": "9ebd705a",
+      "displayName": "Total Completed Transactions",
+      "queryLines": [
+        "SELECT\r\n",
+        "    sale_date,\r\n",
+        "    completed_transactions AS completed_transactions\r\n",
+        "FROM retailanalytics.gold.daily_sales;"
+      ]
+    },
+    {
+      "name": "ef22e046",
+      "displayName": "Success rate",
+      "queryLines": [
+        "SELECT\r\n",
+        "    sale_date,\r\n",
+        "    ROUND(\r\n",
+        "        completed_transactions /\r\n",
+        "        (\r\n",
+        "            completed_transactions +\r\n",
+        "            failed_transactions +\r\n",
+        "            pending_transactions\r\n",
+        "        )* 100.0 ,\r\n",
+        "        2\r\n",
+        "    ) AS success_rate_pct\r\n",
+        "FROM retailanalytics.gold.daily_sales;"
+      ]
+    },
+    {
+      "name": "365dada0",
+      "displayName": "Units sold",
+      "queryLines": [
+        "SELECT\r\n",
+        "    sale_date,\r\n",
+        "    total_units\r\n",
+        "FROM retailanalytics.gold.daily_sales;"
+      ]
+    },
+    {
+      "name": "004beef2",
+      "displayName": "product analysis",
+      "queryLines": [
+        "select * from retailanalytics.gold.product_performance as txn\r\n",
+        "join retailanalytics.masterdata.productmaster as mas on txn.product_id = mas.productid;"
+      ]
+    },
+    {
+      "name": "5f563174",
+      "displayName": "Store Performance",
+      "queryLines": [
+        "select * from retailanalytics.gold.store_performance as txn\r\n",
+        "join retailanalytics.masterdata.storemaster as mas on txn.store_id = mas.storeid;"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "b208282b",
+      "displayName": "Executive Overview",
+      "layout": [
+        {
+          "widget": {
+            "name": "0deef6d9",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\">📊Retail Operations Analytics</span>\n",
+                "\n",
+                "## <span style=\"text-align:center;display:block\"><span style=\"color: #00A972;\">Executive Overview</span></span>\n",
+                "\n",
+                "<span style=\"text-align:center;display:block\"><span style=\"color: #00A972;\">Retail Performance Monitoring</span></span>"
+              ],
+              "verticalAlign": "VERTICAL_ALIGN_CENTER"
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "e394921b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_total_revenue",
+                  "fields": [
+                    {
+                      "name": "sum(total_revenue)",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "contentAlignment": "center",
+                "showDescription": false,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">Total Revenue</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontSize": 32,
+                    "fontColor": "#E47A46"
+                  },
+                  "displayName": "Total Revenue"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "63c7ea65",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "a668f7eb",
+                  "fields": [
+                    {
+                      "name": "sum(failed_transactions)",
+                      "expression": "SUM(`failed_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block;\">Failed Transactions</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(failed_transactions)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "style": {
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 4
+                    },
+                    "fontWeight": 700,
+                    "fontStyle": "normal"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 5,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "1948c591",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "0ef2b62f",
+                  "fields": [
+                    {
+                      "name": "sum(pending_transactions)",
+                      "expression": "SUM(`pending_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block\">Pending Transactions</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(pending_transactions)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "style": {
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 2
+                    },
+                    "fontWeight": 700,
+                    "fontStyle": "normal"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 5,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "947b1c9c",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "ef22e046",
+                  "fields": [
+                    {
+                      "name": "avg(success_rate_pct)",
+                      "expression": "AVG(`success_rate_pct`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "contentAlignment": "center",
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block;\">Transaction Success Rate</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "avg(success_rate_pct)",
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "formatTemplate": "{{ @formatted }}%",
+                  "style": {
+                    "rules": [
+                      {
+                        "condition": {
+                          "operand": {
+                            "type": "data-value",
+                            "value": "90"
+                          },
+                          "operator": ">="
+                        },
+                        "color": "#00A972",
+                        "fontWeight": 700,
+                        "fontStyle": "normal"
+                      }
+                    ]
+                  },
+                  "displayName": "Success Percentage"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "98f5b0da",
+            "queries": [
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b5066c7e1c9a90d59a2a04eac929_sale_date",
+                "query": {
+                  "datasetName": "kpi_total_revenue",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    },
+                    {
+                      "name": "sale_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b507c50d1579af7598880a59b967_sale_date",
+                "query": {
+                  "datasetName": "09f4500c",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    },
+                    {
+                      "name": "sale_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b5084dab1030aab5106e7860951a_sale_date",
+                "query": {
+                  "datasetName": "a668f7eb",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    },
+                    {
+                      "name": "sale_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b50bdc671698a4830b1d08d56b04_sale_date",
+                "query": {
+                  "datasetName": "0ef2b62f",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    },
+                    {
+                      "name": "sale_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b50d498816a08951ca8b149070fa_sale_date",
+                "query": {
+                  "datasetName": "9ebd705a",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    },
+                    {
+                      "name": "sale_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b50e05351471bc5e3449869cd3cb_sale_date",
+                "query": {
+                  "datasetName": "ef22e046",
+                  "fields": [
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    },
+                    {
+                      "name": "sale_date_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "selection": {
+                "defaultSelection": {
+                  "operator": {
+                    "operator": "AND",
+                    "args": []
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block;\">Date Range</span>",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-date-range-picker",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "sale_date",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b5066c7e1c9a90d59a2a04eac929_sale_date"
+                  },
+                  {
+                    "fieldName": "sale_date",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b507c50d1579af7598880a59b967_sale_date"
+                  },
+                  {
+                    "fieldName": "sale_date",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b5084dab1030aab5106e7860951a_sale_date"
+                  },
+                  {
+                    "fieldName": "sale_date",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b50bdc671698a4830b1d08d56b04_sale_date"
+                  },
+                  {
+                    "fieldName": "sale_date",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b50d498816a08951ca8b149070fa_sale_date"
+                  },
+                  {
+                    "fieldName": "sale_date",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1b50e05351471bc5e3449869cd3cb_sale_date"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "units-sold",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "365dada0",
+                  "fields": [
+                    {
+                      "name": "sum(total_units)",
+                      "expression": "SUM(`total_units`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">Units Sold</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_units)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 5
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 3,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "units-vs-date-1",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_total_revenue",
+                  "fields": [
+                    {
+                      "name": "total_units",
+                      "expression": "`total_units`"
+                    },
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Units Vs Date",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "mark": {
+                "colors": [
+                  "#9B75E0"
+                ],
+                "size": 1
+              },
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "sale_date",
+                  "displayName": "Date",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_units",
+                  "displayName": "Units",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "size": {
+                  "fieldName": "total_units",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 7,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "revenue-vs-date",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_total_revenue",
+                  "fields": [
+                    {
+                      "name": "total_revenue",
+                      "expression": "`total_revenue`"
+                    },
+                    {
+                      "name": "sale_date",
+                      "expression": "`sale_date`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Revenue Vs Date",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "sale_date",
+                  "displayName": "Date",
+                  "scale": {
+                    "type": "temporal"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_revenue",
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "size": {
+                  "fieldName": "total_revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                },
+                "extra": [
+                  {
+                    "fieldName": "total_revenue"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "730c3dc5",
+      "displayName": "Product Performance",
+      "layout": [
+        {
+          "widget": {
+            "name": "957b931c",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\">📊Retail Operations Analytics</span>\n",
+                "\n",
+                "## <span style=\"text-align:center;display:block\"><span style=\"color:#00A972\">Product Analysis</span></span>\n",
+                "\n",
+                "<span style=\"text-align:center;display:block\"><span style=\"color:#00A972\">Retail Performance Monitoring</span></span>"
+              ],
+              "verticalAlign": "VERTICAL_ALIGN_CENTER"
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "8da3586e",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(product_id)",
+                      "expression": "COUNT(DISTINCT `product_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Products</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(product_id)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 5
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "1fdff242",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(category)",
+                      "expression": "COUNT(DISTINCT `category`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Category</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(category)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 3
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "f3b282a4",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(subcategory)",
+                      "expression": "COUNT(DISTINCT `subcategory`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Sub Category</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(subcategory)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": "#DCD28E"
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 5,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "45b66728",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(brand)",
+                      "expression": "COUNT(DISTINCT `brand`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Brands</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(brand)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": "#BF6CBD"
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 5,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "category",
+            "queries": [
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1ba44730313068445e2d3ed154872_category",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    },
+                    {
+                      "name": "category_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Category",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "category",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1ba44730313068445e2d3ed154872_category"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "sub-category",
+            "queries": [
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1ba44730313068445e2d3ed154872_subcategory",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "subcategory",
+                      "expression": "`subcategory`"
+                    },
+                    {
+                      "name": "subcategory_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Sub category",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "subcategory",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1ba44730313068445e2d3ed154872_subcategory"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "brand",
+            "queries": [
+              {
+                "name": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1ba44730313068445e2d3ed154872_brand",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "brand",
+                      "expression": "`brand`"
+                    },
+                    {
+                      "name": "brand_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Brand",
+                  "fields": []
+                }
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "brand",
+                    "queryName": "dashboards/01f1b50446bb1c6694a8193b202c3a26/datasets/01f1ba44730313068445e2d3ed154872_brand"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "37d986ab",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "sum(completed_transactions)",
+                      "expression": "SUM(`completed_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Products Sold</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(completed_transactions)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 2
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 3,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "6d6fe806",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "sum(total_revenue)",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">Revenue</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_revenue)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 7
+                    }
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 3,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "percent-products-sold-per-category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "sum(completed_transactions)",
+                      "expression": "SUM(`completed_transactions`)"
+                    },
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block;\">% of products sold per category</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "sum(completed_transactions)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Products sold"
+                },
+                "color": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 7,
+            "width": 4,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "category-vs-units-sold",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "subcategory",
+                      "expression": "`subcategory`"
+                    },
+                    {
+                      "name": "sum(completed_transactions)",
+                      "expression": "SUM(`completed_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Category vs Units sold",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "subcategory",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(completed_transactions)",
+                  "displayName": "# of units sold",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 7,
+            "width": 8,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "sub-category-vs-revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "subcategory",
+                      "expression": "`subcategory`"
+                    },
+                    {
+                      "name": "sum(total_revenue)",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block\">Sub-category vs Revenue</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "subcategory",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_revenue)",
+                  "displayName": "Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 12,
+            "width": 8,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "percent-of-brands-per-category",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "004beef2",
+                  "fields": [
+                    {
+                      "name": "countdistinct(brand)",
+                      "expression": "COUNT(DISTINCT `brand`)"
+                    },
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "### <span style=\"text-align:center;display:block\">% of brands per category</span>",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "countdistinct(brand)",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "category",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 4,
+            "height": 5
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "8e9667b4",
+      "displayName": "Store Performace",
+      "layout": [
+        {
+          "widget": {
+            "name": "77d48d5f",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# <span style=\"text-align:center;display:block\">📊Retail Operations Analytics</span>\n",
+                "\n",
+                "## <span style=\"text-align:center;display:block\"><span style=\"color:#00A972\">Store Analysis</span></span>\n",
+                "\n",
+                "<span style=\"text-align:center;display:block\"><span style=\"color:#00A972\">Retail Performance Monitoring</span></span>"
+              ],
+              "verticalAlign": "VERTICAL_ALIGN_CENTER"
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "e9187ee5",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "sum(total_revenue)",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "contentAlignment": "center",
+                "showDescription": false,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">Total Revenue</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_revenue)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "INR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontSize": 32,
+                    "fontColor": "#E47A46"
+                  },
+                  "displayName": "Total Revenue"
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "4f392555",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "countdistinct(store_id)",
+                      "expression": "COUNT(DISTINCT `store_id`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Stores</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "countdistinct(store_id)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 5
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "8edb677b",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "sum(total_units)",
+                      "expression": "SUM(`total_units`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of units Sold</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_units)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 2
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "5ddba214",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "sum(failed_transactions)",
+                      "expression": "SUM(`failed_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of failed Txn</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(failed_transactions)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 10
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "52288df2",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "sum(pending_transactions)",
+                      "expression": "SUM(`pending_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Pending Txn</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(pending_transactions)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 7
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 4,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "3f3fce48",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "sum(completed_transactions)",
+                      "expression": "SUM(`completed_transactions`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "## <span style=\"text-align:center;display:block\">#of Completed Txn</span>",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(completed_transactions)",
+                  "style": {
+                    "fontWeight": 700,
+                    "fontStyle": "normal",
+                    "fontColor": {
+                      "themeColorType": "visualizationColors",
+                      "position": 5
+                    }
+                  },
+                  "format": {
+                    "type": "number-plain",
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    },
+                    "significantFigures": {
+                      "type": "all"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 4,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "store-vs-revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "5f563174",
+                  "fields": [
+                    {
+                      "name": "storename",
+                      "expression": "`storename`"
+                    },
+                    {
+                      "name": "sum(total_revenue)",
+                      "expression": "SUM(`total_revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Store Vs Revenue",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "storename",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_revenue)",
+                  "displayName": "Total Revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    },
+    "applyModeEnabled": false
+  }
+}
