@@ -1,0 +1,28 @@
+name: Test Databricks Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Packages
+        run: |
+          pip install databricks-sql-connector
+
+      - name: Test Connection
+        env:
+          DATABRICKS_HOSTNAME: ${{ secrets.DATABRICKS_HOSTNAME }}
+          DATABRICKS_HTTP_PATH: ${{ secrets.DATABRICKS_HTTP_PATH }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          python test_connection.py
