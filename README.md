@@ -351,6 +351,7 @@ During this project I gained hands-on experience with:
 ## Product Dashboard
 
 ![Product Dashboard](Dashboard/productper.png)
+![](Dashboard/pp_1.png)
 
 ## Store Dashboard
 
