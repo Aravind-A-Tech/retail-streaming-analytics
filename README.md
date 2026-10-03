@@ -27,7 +27,7 @@ This project addresses that challenge by creating a near real-time analytics pip
 
 # 🏗️ Architecture
 
-![Architecture Diagram](Dashboard/ChatGPT Image Sep 27, 2026, 11_50_46 AM.png)
+![Architecture Diagram](Dashboard/Architecture_diagram.png)
 
 ### Data Flow
 
@@ -342,15 +342,15 @@ During this project I gained hands-on experience with:
 
 ## Architecture
 
-![Architecture](Dashboard/ChatGPT Image Sep 27, 2026, 11_50_46 AM.png)
+![Architecture](Dashboard/Architecture_diagram.png)
 
 ## Executive Dashboard
 
-![Executive Dashboard](Dashboard/Exc overview.png)
+![Executive Dashboard](Dashboard/Exc_overview.png)
 
 ## Product Dashboard
 
-![Product Dashboard](Dashboard/product per.png)
+![Product Dashboard](Dashboard/productper.png)
 
 ## Store Dashboard
 
