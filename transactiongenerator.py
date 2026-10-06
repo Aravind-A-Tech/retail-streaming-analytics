@@ -95,6 +95,11 @@ def main():
     for _ in range(count):
         transaction = generator.generate_transaction()
         send_transaction(transaction)
+        
+    print(
+    f"[{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}] "
+    f"Records Sent: {count}"
+    )
 
 
 if __name__ == "__main__":
