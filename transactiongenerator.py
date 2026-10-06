@@ -97,7 +97,7 @@ def main():
         send_transaction(transaction)
         
     print(
-    f"[{datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}] "
+    f"[{datetime.now(UTC).strftime('%Y-%m-%d %H:%M:%S UTC')}] "
     f"Records Sent: {count}"
     )
 
